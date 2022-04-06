@@ -1,0 +1,148 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44367
+        }
+      ],
+      "UpstreamPathTemplate": "/Aircraft/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "Aircraft"
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44357
+        }
+      ],
+      "UpstreamPathTemplate": "/Airport/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "Airport"
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44341
+        }
+      ],
+      "UpstreamPathTemplate": "/BasePrice/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "BasePrice"
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44311
+        }
+      ],
+      "UpstreamPathTemplate": "/Flight/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "Flight"
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44322
+        }
+      ],
+      "UpstreamPathTemplate": "/Passenger/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "Passenger"
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44366
+        }
+      ],
+      "UpstreamPathTemplate": "/Ticket/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "Ticket"
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "Aircraft",
+      "Config": [
+        {
+          "Name": "Aircraft API",
+          "Version": "v1",
+          "Url": "https://localhost:44367/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Airport",
+      "Config": [
+        {
+          "Name": "Airport API",
+          "Version": "v1",
+          "Url": "https://localhost:44357/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "BasePrice",
+      "Config": [
+        {
+          "Name": "BasePrice API",
+          "Version": "v1",
+          "Url": "https://localhost:44341/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Flight",
+      "Config": [
+        {
+          "Name": "Flight API",
+          "Version": "v1",
+          "Url": "https://localhost:44311/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Passenger",
+      "Config": [
+        {
+          "Name": "Passenger API",
+          "Version": "v1",
+          "Url": "https://localhost:44322/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "Ticket",
+      "Config": [
+        {
+          "Name": "Ticket API",
+          "Version": "v1",
+          "Url": "https://localhost:44366/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost"
+  }
+}
