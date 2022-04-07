@@ -28,9 +28,16 @@ namespace Passengers.API.Services
 
         public async Task<Passenger> AddAsync(Passenger passenger)
         {
+            if (_passengerRepository.FindAsync(c => c.Cpf == passenger.Cpf) != null)
+            {
+                Notification("There is already a passenger with this document number");
+                return passenger;
+            }
+
+
             var address = await _viaCepService.ConsultarCEP(passenger.Address);
             if (address is not null) passenger.Address = address;
-            
+
             if (!ExecuteValidation(new PassengerValidation(), passenger)) return passenger;
 
             return await _passengerRepository.AddAsync(passenger);

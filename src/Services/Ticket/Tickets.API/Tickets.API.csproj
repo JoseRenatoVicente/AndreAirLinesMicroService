@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Domain\AndreAirLines.Domain\AndreAirLines.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\AndreAirLines.Domain\AndreAirLines.Domain.csproj" />
   </ItemGroup>
 
 </Project>
