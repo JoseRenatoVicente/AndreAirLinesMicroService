@@ -2,12 +2,14 @@
 using AndreAirLines.Domain.Controllers.Base;
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Airports.API.Controllers
 {
+    //[Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     public class AirportsController : BaseController
     {
@@ -53,14 +55,14 @@ namespace Airports.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Airport>> PostAirport(Airport airport)
         {
-           return await CustomResponseAsync(await _airportsService.AddAsync(airport));
+            return await CustomResponseAsync(await _airportsService.AddAsync(airport));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAirport(string id)
         {
-            var passageiro = await GetAirport(id);
-            if (passageiro == null)
+            var airport = await GetAirport(id);
+            if (airport == null)
             {
                 return NotFound();
             }

@@ -96,5 +96,6 @@
 
         public static bool ValidarCPF(Cpf sourceCPF) =>
             sourceCPF.EhValido;
+
     }
 }

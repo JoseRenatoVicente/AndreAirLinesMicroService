@@ -2,7 +2,6 @@
 using AndreAirLines.Domain.Notifications;
 using FluentValidation;
 using FluentValidation.Results;
-using System;
 
 namespace AndreAirLines.Domain.Services.Base
 {

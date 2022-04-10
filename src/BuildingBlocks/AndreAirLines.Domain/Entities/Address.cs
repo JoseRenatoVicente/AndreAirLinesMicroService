@@ -10,6 +10,7 @@
         public string State { get; set; }
         public string Number { get; set; }
         public string Complement { get; set; }
+        public string Continent { get; set; }
 
         public Address()
         {

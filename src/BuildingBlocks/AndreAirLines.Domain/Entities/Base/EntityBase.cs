@@ -11,8 +11,8 @@ namespace AndreAirLines.Domain.Entities.Base
             Id = ObjectId.GenerateNewId().ToString();
         }
 
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        [BsonId, BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        public string LoginUser { get; set; }
     }
 }

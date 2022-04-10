@@ -30,7 +30,7 @@ namespace Classs.API.Services
             return await _classRepository.AddAsync(@class);
         }
 
-        public async Task<Class> UpdateAsync(string id, Class @class)
+        public async Task<Class> UpdateAsync(Class @class)
         {
             return await _classRepository.UpdateAsync(@class);
         }

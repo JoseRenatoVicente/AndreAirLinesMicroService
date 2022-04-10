@@ -45,7 +45,7 @@ namespace Tickets.API.Controllers
                 return BadRequest();
             }
 
-            await _ticketsService.UpdateAsync(id, ticket);
+            await _ticketsService.UpdateAsync(ticket);
 
             return NoContent();
         }

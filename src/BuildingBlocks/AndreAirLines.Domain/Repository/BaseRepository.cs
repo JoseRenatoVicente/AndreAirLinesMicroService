@@ -1,5 +1,4 @@
 ﻿using AndreAirLines.Domain.Entities.Base;
-using AndreAirLines.Domain.Settings;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -8,46 +7,39 @@ using System.Threading.Tasks;
 
 namespace AndreAirLines.Domain.Repository
 {
-    public class BaseRepository<TEntity>: IBaseRepository<TEntity> where TEntity : EntityBase
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
     {
-        private readonly string _database;
-        private readonly IMongoClient _mongoClient;
+        public IMongoCollection<TEntity> DbSet;
 
-        private readonly string _collection = typeof(TEntity).Name;
-
-        public BaseRepository(IAppSettings appSettings)
+        public BaseRepository(IMongoDatabase database)
         {
-            _mongoClient = new MongoClient(appSettings.ConnectionString);
-            _database = appSettings.DatabaseName;
+            DbSet = database.GetCollection<TEntity>(typeof(TEntity).Name);
         }
 
-        public IMongoCollection<TEntity> Collection =>
-         _mongoClient.GetDatabase(_database).GetCollection<TEntity>(_collection);
-
         public async Task<IEnumerable<TEntity>> GetAllAsync() =>
-            await Collection.Find(entity => true).ToListAsync();
+            await DbSet.Find(entity => true).ToListAsync();
 
         public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> where) =>
-            await Collection.Find(where).ToListAsync();
+            await DbSet.Find(where).ToListAsync();
 
         public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> where) =>
-            await Collection.Find(where).FirstOrDefaultAsync();
+            await DbSet.Find(where).FirstOrDefaultAsync();
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
-            await Collection.InsertOneAsync(entity);
+            await DbSet.InsertOneAsync(entity);
             return entity;
         }
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            await Collection.ReplaceOneAsync(c => c.Id == entity.Id, entity);
+            await DbSet.ReplaceOneAsync(c => c.Id == entity.Id, entity);
             return entity;
         }
 
         public async Task RemoveAsync(TEntity entityIn) =>
-            await Collection.DeleteOneAsync(entity => entity.Id == entityIn.Id);
+            await DbSet.DeleteOneAsync(entity => entity.Id == entityIn.Id);
 
         public async Task RemoveAsync(string id) =>
-            await Collection.DeleteOneAsync(entity => entity.Id == id);
+            await DbSet.DeleteOneAsync(entity => entity.Id == id);
     }
 }

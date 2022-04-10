@@ -38,7 +38,7 @@ namespace BasePrices.API.Controllers
             return basePrice;
         }
 
-       [HttpGet("{originAirportId}/{destinationAirportId}")]
+        [HttpGet("{originAirportId}/{destinationAirportId}")]
         public async Task<ActionResult<BasePrice>> GetBasePrice(string originAirportId, string destinationAirportId)
         {
             var basePrice = await _basePricesService.GetBasePriceRecentlyAsync(originAirportId, destinationAirportId);

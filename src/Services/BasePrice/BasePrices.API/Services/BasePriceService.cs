@@ -1,4 +1,5 @@
 ﻿using AndreAirLines.Domain.Entities;
+using AndreAirLines.Domain.Entities.Enums;
 using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
 using AndreAirLines.Domain.Services.Base;
@@ -27,7 +28,7 @@ namespace BasePrices.API.Services
             await _basePriceRepository.FindAsync(c => c.Id == id);
 
         public async Task<BasePrice> GetBasePriceRecentlyAsync(string originAirportId, string destinationAirportId) =>
-            await _basePriceRepository.FindAsync(c => c.Origin.Id == originAirportId 
+            await _basePriceRepository.FindAsync(c => c.Origin.Id == originAirportId
                                                 && c.Destination.Id == destinationAirportId);
 
         public async Task<BasePrice> AddAsync(BasePrice basePrice)
@@ -39,14 +40,14 @@ namespace BasePrices.API.Services
                 return basePrice;
             }
 
-            Airport origin = await _gatewayService.GetFromJsonAsync<Airport>($"Airport/api/Airports/{basePrice.Origin.Id}");
+            Airport origin = await _gatewayService.GetFromJsonAsync<Airport>("Airport/api/Airports/" + basePrice.Origin.Id);
             if (origin == null)
             {
                 Notification("Origin Airport does not exist registered in our database database");
                 return basePrice;
             }
 
-            Airport destination = await _gatewayService.GetFromJsonAsync<Airport>($"Airport/api/Airports/{basePrice.Destination.Id}");
+            Airport destination = await _gatewayService.GetFromJsonAsync<Airport>("Airport/api/Airports/" + basePrice.Destination.Id);
             if (destination == null)
             {
                 Notification("Destination Airport does not exist registered in our database database");
@@ -58,18 +59,54 @@ namespace BasePrices.API.Services
 
             if (!ExecuteValidation(new BasePriceValidation(), basePrice)) return basePrice;
 
+            var user = new User { LoginUser = basePrice.LoginUser };
+            await _gatewayService.PostLogAsync(user, null, basePrice, Operation.Create);
+
             return await _basePriceRepository.AddAsync(basePrice);
         }
 
-        public async Task<BasePrice> UpdateAsync(BasePrice BasePrice)
+        public async Task<BasePrice> UpdateAsync(BasePrice basePrice)
         {
-            return await _basePriceRepository.UpdateAsync(BasePrice);
+            var basePriceBefore = await _basePriceRepository.FindAsync(c => c.Id == basePrice.Id);
+
+
+            if (basePriceBefore == null)
+            {
+                Notification("Not found");
+                return basePrice;
+            }
+
+            var user = new User { LoginUser = basePrice.LoginUser };
+            await _gatewayService.PostLogAsync(user, basePriceBefore, basePrice, Operation.Update);
+
+            return await _basePriceRepository.UpdateAsync(basePrice);
         }
 
-        public async Task RemoveAsync(BasePrice BasePriceIn) =>
-            await _basePriceRepository.RemoveAsync(BasePriceIn);
+        public async Task RemoveAsync(BasePrice basePriceIn)
+        {
 
-        public async Task RemoveAsync(string id) =>
+            var user = new User { LoginUser = basePriceIn.LoginUser };
+            await _gatewayService.PostLogAsync(user, basePriceIn, null, Operation.Delete);
+
+            await _basePriceRepository.RemoveAsync(basePriceIn);
+        }
+
+        public async Task<bool> RemoveAsync(string id)
+        {
+            var basePrice = await _basePriceRepository.FindAsync(c => c.Id == id);
+
+            if (basePrice == null)
+            {
+                Notification("Not found");
+                return false;
+            }
+
+            var user = new User { LoginUser = basePrice.LoginUser };
+            await _gatewayService.PostLogAsync(user, basePrice, null, Operation.Delete);
+
             await _basePriceRepository.RemoveAsync(id);
+
+            return true;
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace Classs.API.Controllers
                 return BadRequest();
             }
 
-            await _classsService.UpdateAsync(id, @class);
+            await _classsService.UpdateAsync(@class);
 
             return NoContent();
         }

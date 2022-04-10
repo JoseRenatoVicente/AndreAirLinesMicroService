@@ -3,7 +3,7 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile($"ocelot.Development.json");
+builder.Configuration.AddJsonFile("ocelot.Development.json");
 
 // Add services to the container.
 builder.Services.AddOcelot();

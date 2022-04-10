@@ -1,4 +1,3 @@
-using AndreAirLines.Domain.Settings;
 using Logs.API.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,10 +21,7 @@ namespace Logs.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<AppSettings>(
-Configuration.GetSection(nameof(AppSettings)));
-
-            services.ResolveDependencies();
+            services.ResolveDependencies(Configuration);
 
             services.AddControllers().AddJsonOptions(options =>
             {

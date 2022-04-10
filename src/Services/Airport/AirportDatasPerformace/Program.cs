@@ -73,7 +73,7 @@ namespace AirportDatasPerformace
             sw.Restart();
             for (var i = 0; i < 500; i++) await GetAPIEF();
             sw.Stop();
-            Console.WriteLine("\n" + eftype);            
+            Console.WriteLine("\n" + eftype);
             Console.WriteLine("Time: " + sw.Elapsed);
             Console.WriteLine("Erros: " + errors);
             Console.WriteLine("Sucess: " + sucess);

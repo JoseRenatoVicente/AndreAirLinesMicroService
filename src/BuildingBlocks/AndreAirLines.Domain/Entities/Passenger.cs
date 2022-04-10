@@ -1,24 +1,10 @@
-﻿using AndreAirLines.API.Models.Enums;
-using AndreAirLines.Domain.Entities.Base;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Text.Json.Serialization;
+﻿using AndreAirLines.Domain.Entities.Base;
 
 namespace AndreAirLines.Domain.Entities
 {
-    public class Passenger : EntityBase
+    public class Passenger : Person
     {
-        public string Cpf { get; set; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))]  // System.Text.Json.Serialization
-        [BsonRepresentation(BsonType.String)]
-        public Sex Sex { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string Email { get; set; }
-        public Address Address { get; set; }
-
+        public string PassportNumber { get; set; }
         public Passenger()
         {
 

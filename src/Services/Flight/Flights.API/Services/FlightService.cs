@@ -1,4 +1,5 @@
 ﻿using AndreAirLines.Domain.Entities;
+using AndreAirLines.Domain.Entities.Enums;
 using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
 using AndreAirLines.Domain.Services.Base;
@@ -34,21 +35,21 @@ namespace Flights.API.Services
                 return flight;
             }
 
-            Airport origin = await _gatewayService.GetFromJsonAsync<Airport>($"Airport/api/Airports/{flight.Origin.Id}");
+            Airport origin = await _gatewayService.GetFromJsonAsync<Airport>("Airport/api/Airports/" + flight.Origin.Id);
             if (origin == null)
             {
                 Notification("Origin Airport does not exist registered in our database database");
                 return flight;
             }
 
-            Airport destination = await _gatewayService.GetFromJsonAsync<Airport>($"Airport/api/Airports/{flight.Destination.Id}");
+            Airport destination = await _gatewayService.GetFromJsonAsync<Airport>("Airport/api/Airports/" + flight.Destination.Id);
             if (destination == null)
             {
                 Notification("Destination Airport does not exist registered in our database database");
                 return flight;
             }
 
-            Aircraft aircraft = await _gatewayService.GetFromJsonAsync<Aircraft>($"Aircraft/api/Aircrafts/{flight.Aircraft.Id}");
+            Aircraft aircraft = await _gatewayService.GetFromJsonAsync<Aircraft>("Aircraft/api/Aircrafts/" + flight.Aircraft.Id);
             if (aircraft == null)
             {
                 Notification("Aircraft does not exist registered in our database database");
@@ -61,18 +62,54 @@ namespace Flights.API.Services
 
             if (!ExecuteValidation(new FlightValidation(), flight)) return flight;
 
+            var user = new User { LoginUser = flight.LoginUser };
+            await _gatewayService.PostLogAsync(user, null, flight, Operation.Create);
+
             return await _flightRepository.AddAsync(flight);
         }
 
         public async Task<Flight> UpdateAsync(Flight flight)
         {
+
+            var flightBefore = await _flightRepository.FindAsync(c => c.Id == flight.Id);
+
+
+            if (flightBefore == null)
+            {
+                Notification("Not found");
+                return flight;
+            }
+
+            var user = new User { LoginUser = flight.LoginUser };
+            await _gatewayService.PostLogAsync(user, flightBefore, flight, Operation.Update);
+
             return await _flightRepository.UpdateAsync(flight);
         }
 
-        public async Task RemoveAsync(Flight flightIn) =>
-            await _flightRepository.RemoveAsync(flightIn);
+        public async Task RemoveAsync(Flight flightIn)
+        {
+            var user = new User { LoginUser = flightIn.LoginUser };
+            await _gatewayService.PostLogAsync(user, flightIn, null, Operation.Delete);
 
-        public async Task RemoveAsync(string id) =>
+            await _flightRepository.RemoveAsync(flightIn);
+        }
+
+        public async Task<bool> RemoveAsync(string id)
+        {
+            var flight = await _flightRepository.FindAsync(c => c.Id == id);
+
+            if (flight == null)
+            {
+                Notification("Not found");
+                return false;
+            }
+
+            var user = new User { LoginUser = flight.LoginUser };
+            await _gatewayService.PostLogAsync(user, flight, null, Operation.Delete);
+
             await _flightRepository.RemoveAsync(id);
+
+            return true;
+        }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Repository;
-using AndreAirLines.Domain.Settings;
+using MongoDB.Driver;
 
 namespace Aircrafts.API.Repository
 {
     public class AircraftRepository : BaseRepository<Aircraft>, IAircraftRepository
     {
-        public AircraftRepository(IAppSettings appSettings) : base(appSettings)
+        public AircraftRepository(IMongoDatabase database) : base(database)
         {
         }
     }

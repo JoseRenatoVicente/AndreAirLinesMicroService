@@ -1,5 +1,4 @@
-using AirportDatasDapper.API.Repository;
-using AirportDatasDapper.Services;
+using AirportDatasDapper.API.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,8 +21,7 @@ namespace AirportDatasDapper.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddScoped<AirportDataService>();
-            services.AddScoped<IAirportDataRepository, AirportDataRepository>();
+            services.ResolveDependencies();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

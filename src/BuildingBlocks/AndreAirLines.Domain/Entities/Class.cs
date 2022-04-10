@@ -1,5 +1,4 @@
 ﻿using AndreAirLines.Domain.Entities.Base;
-using System;
 
 namespace AndreAirLines.Domain.Entities
 {

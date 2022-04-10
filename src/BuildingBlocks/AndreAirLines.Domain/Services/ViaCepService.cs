@@ -14,7 +14,7 @@ namespace AndreAirLines.Domain.Services
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://viacep.com.br/");
-                HttpResponseMessage response = await client.GetAsync($"ws/{address.CEP}/json/");
+                HttpResponseMessage response = await client.GetAsync("ws/" + address.CEP + "/json/");
 
                 if (response.IsSuccessStatusCode)
                 {
