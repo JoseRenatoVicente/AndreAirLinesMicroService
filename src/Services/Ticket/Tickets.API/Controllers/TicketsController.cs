@@ -1,6 +1,7 @@
 ﻿using AndreAirLines.Domain.Controllers.Base;
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace Tickets.API.Controllers
             return ticket;
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTicket(string id, Ticket ticket)
         {
@@ -45,17 +47,19 @@ namespace Tickets.API.Controllers
                 return BadRequest();
             }
 
-            await _ticketsService.UpdateAsync(ticket);
+            await _ticketsService.UpdateTicketAsync(ticket);
 
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket)
         {
-            return await CustomResponseAsync(await _ticketsService.AddAsync(ticket));
+            return await CustomResponseAsync(await _ticketsService.AddTicketAsync(ticket));
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTicket(string id)
         {
@@ -64,7 +68,7 @@ namespace Tickets.API.Controllers
             {
                 return NotFound();
             }
-            await _ticketsService.RemoveAsync(id);
+            await _ticketsService.RemoveTicketAsync(id);
 
             return NoContent();
         }

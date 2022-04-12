@@ -30,9 +30,8 @@ namespace Airports.API.Services
         public async Task<Airport> GetAirportByIdAsync(string id) =>
             await _airportRepository.FindAsync(c => c.Id == id);
 
-        public async Task<Airport> AddAsync(Airport airport)
+        public async Task<Airport> AddAirportAsync(Airport airport)
         {
-
             var airportData = await _gatewayService.GetFromJsonAsync<AirportData>("AirportDatasDapper/api/AirportDatas/" + airport.IATACode);
             if (airportData != null) airport.SetAirportData(airportData);
 
@@ -41,16 +40,14 @@ namespace Airports.API.Services
 
             if (!ExecuteValidation(new AirportValidation(), airport)) return airport;
 
-            var user = new User { LoginUser = airport.LoginUser };
-            await _gatewayService.PostLogAsync(user, null, airport, Operation.Create);
+            await _gatewayService.PostLogAsync(null, airport, Operation.Create);
 
             return await _airportRepository.AddAsync(airport);
         }
 
-        public async Task<Airport> UpdateAsync(Airport airport)
+        public async Task<Airport> UpdateAirportAsync(Airport airport)
         {
             var airportBefore = await _airportRepository.FindAsync(c => c.Id == airport.Id);
-
 
             if (airportBefore == null)
             {
@@ -58,21 +55,19 @@ namespace Airports.API.Services
                 return airport;
             }
 
-            var user = new User { LoginUser = airport.LoginUser };
-            await _gatewayService.PostLogAsync(user, airportBefore, airport, Operation.Update);
+            await _gatewayService.PostLogAsync(airportBefore, airport, Operation.Update);
 
             return await _airportRepository.UpdateAsync(airport);
         }
 
-        public async Task RemoveAsync(Airport airportIn)
+        public async Task RemoveAirportAsync(Airport airport)
         {
-            var user = new User { LoginUser = airportIn.LoginUser };
-            await _gatewayService.PostLogAsync(user, airportIn, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(airport, null, Operation.Delete);
 
-            await _airportRepository.RemoveAsync(airportIn);
+            await _airportRepository.RemoveAsync(airport);
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> RemoveAirportAsync(string id)
         {
             var airport = await _airportRepository.FindAsync(c => c.Id == id);
 
@@ -82,8 +77,7 @@ namespace Airports.API.Services
                 return false;
             }
 
-            var user = new User { LoginUser = airport.LoginUser };
-            await _gatewayService.PostLogAsync(user, airport, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(airport, null, Operation.Delete);
 
             await _airportRepository.RemoveAsync(id);
 

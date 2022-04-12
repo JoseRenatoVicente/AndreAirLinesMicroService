@@ -1,6 +1,7 @@
 ﻿using AndreAirLines.Domain.Controllers.Base;
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Passengers.API.Services;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace ExampleWebAPIMongoDB.Controllers
             return passenger;
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPassenger(string id, Passenger passenger)
         {
@@ -47,17 +49,19 @@ namespace ExampleWebAPIMongoDB.Controllers
                 return BadRequest();
             }
 
-            await _passengerService.UpdateAsync(passenger);
+            await _passengerService.UpdatePassengerAsync(passenger);
 
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost]
         public async Task<ActionResult<Passenger>> PostPassenger(Passenger passenger)
         {
-            return await CustomResponseAsync(await _passengerService.AddAsync(passenger));
+            return await CustomResponseAsync(await _passengerService.AddPassengerAsync(passenger));
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePassenger(string id)
         {
@@ -66,7 +70,7 @@ namespace ExampleWebAPIMongoDB.Controllers
             {
                 return NotFound();
             }
-            await _passengerService.RemoveAsync(id);
+            await _passengerService.RemovePassengerAsync(id);
 
             return NoContent();
         }

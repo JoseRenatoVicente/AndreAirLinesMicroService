@@ -26,22 +26,22 @@ namespace Identity.API.Services
         public async Task<Role> GetRoleByIdAsync(string id) =>
             await _roleRepository.FindAsync(c => c.Id == id);
 
-        public async Task<Role> AddAsync(Role role)
+        public async Task<Role> AddRoleAsync(Role role)
         {
             if (!ExecuteValidation(new RoleValidation(), role)) return role;
 
             return await _roleRepository.AddAsync(role);
         }
 
-        public async Task<Role> UpdateAsync(Role role)
+        public async Task<Role> UpdateRoleAsync(Role role)
         {
             return await _roleRepository.UpdateAsync(role);
         }
 
-        public async Task RemoveAsync(Role roleIn) =>
-            await _roleRepository.RemoveAsync(roleIn);
+        public async Task RemoveRoleAsync(Role role) =>
+            await _roleRepository.RemoveAsync(role);
 
-        public async Task RemoveAsync(string id) =>
+        public async Task RemoveRoleAsync(string id) =>
             await _roleRepository.RemoveAsync(id);
     }
 }

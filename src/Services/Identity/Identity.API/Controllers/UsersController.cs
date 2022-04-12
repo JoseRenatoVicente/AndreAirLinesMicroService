@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Identity.API.Controllers
 {
+    [SecurityHeaders]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : BaseController
@@ -19,6 +20,7 @@ namespace Identity.API.Controllers
             _userService = userService;
         }
 
+        [SecurityHeaders]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
@@ -28,33 +30,33 @@ namespace Identity.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(string id)
         {
-            var User = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByIdAsync(id);
 
-            if (User == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return User;
+            return user;
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, User User)
+        public async Task<IActionResult> PutUser(string id, User user)
         {
-            if (id != User.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            await _userService.UpdateAsync(User);
+            await _userService.UpdateUserAsync(user);
 
             return NoContent();
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User User)
+        public async Task<ActionResult<User>> PostUser(User user)
         {
-            return await CustomResponseAsync(await _userService.AddAsync(User));
+            return await CustomResponseAsync(await _userService.AddUserAsync(user));
         }
 
         [HttpDelete("{id}")]
@@ -65,7 +67,7 @@ namespace Identity.API.Controllers
             {
                 return NotFound();
             }
-            await _userService.RemoveAsync(id);
+            await _userService.RemoveUserAsync(id);
 
             return NoContent();
         }

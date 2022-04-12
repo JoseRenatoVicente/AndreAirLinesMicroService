@@ -26,7 +26,7 @@ namespace Tickets.API.Services
         public async Task<Ticket> GetTicketByIdAsync(string id) =>
             await _ticketRepository.FindAsync(c => c.Id == id);
 
-        public async Task<Ticket> AddAsync(Ticket ticket)
+        public async Task<Ticket> AddTicketAsync(Ticket ticket)
         {
 
             Passenger passenger = await _gatewayService.GetFromJsonAsync<Passenger>("Passenger/api/Passengers/" + ticket.Passenger.Id);
@@ -66,13 +66,12 @@ namespace Tickets.API.Services
 
             if (!ExecuteValidation(new TicketValidation(), ticket)) return ticket;
 
-            var user = new User { LoginUser = ticket.LoginUser };
-            await _gatewayService.PostLogAsync(user, null, ticket, Operation.Create);
+            await _gatewayService.PostLogAsync(null, ticket, Operation.Create);
 
             return await _ticketRepository.AddAsync(ticket);
         }
 
-        public async Task<Ticket> UpdateAsync(Ticket ticket)
+        public async Task<Ticket> UpdateTicketAsync(Ticket ticket)
         {
 
             var ticketBefore = await _ticketRepository.FindAsync(c => c.Id == ticket.Id);
@@ -83,21 +82,19 @@ namespace Tickets.API.Services
                 return ticket;
             }
 
-            var user = new User { LoginUser = ticket.LoginUser };
-            await _gatewayService.PostLogAsync(user, ticketBefore, ticket, Operation.Update);
+            await _gatewayService.PostLogAsync(ticketBefore, ticket, Operation.Update);
 
             return await _ticketRepository.UpdateAsync(ticket);
         }
 
-        public async Task RemoveAsync(Ticket ticketIn)
+        public async Task RemoveTicketAsync(Ticket ticket)
         {
-            var user = new User { LoginUser = ticketIn.LoginUser };
-            await _gatewayService.PostLogAsync(user, ticketIn, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(ticket, null, Operation.Delete);
 
-            await _ticketRepository.RemoveAsync(ticketIn);
+            await _ticketRepository.RemoveAsync(ticket);
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> RemoveTicketAsync(string id)
         {
             var ticket = await _ticketRepository.FindAsync(c => c.Id == id);
 
@@ -107,8 +104,7 @@ namespace Tickets.API.Services
                 return false;
             }
 
-            var user = new User { LoginUser = ticket.LoginUser };
-            await _gatewayService.PostLogAsync(user, ticket, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(ticket, null, Operation.Delete);
 
             await _ticketRepository.RemoveAsync(id);
 

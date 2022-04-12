@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
 
-namespace Airports.API.Configuration
+namespace Flights.API.Configuration
 {
     public static class SwaggerConfig
     {
@@ -19,7 +19,7 @@ namespace Airports.API.Configuration
                 {
                     Version = "v1",
                     Title = "AndreAirLines Project",
-                    Description = "Airports API",
+                    Description = "Flights API",
                     License = new OpenApiLicense { Name = "MIT" }
                 });
 
@@ -60,7 +60,7 @@ namespace Airports.API.Configuration
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Airports.API v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Flights.API v1");
             });
         }
     }

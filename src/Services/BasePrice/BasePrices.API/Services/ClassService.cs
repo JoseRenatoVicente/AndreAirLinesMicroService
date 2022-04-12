@@ -23,22 +23,22 @@ namespace Classs.API.Services
         public async Task<Class> GetClassByIdAsync(string id) =>
             await _classRepository.FindAsync(c => c.Id == id);
 
-        public async Task<Class> AddAsync(Class @class)
+        public async Task<Class> AddClassAsync(Class @class)
         {
             if (!ExecuteValidation(new ClassValidation(), @class)) return @class;
 
             return await _classRepository.AddAsync(@class);
         }
 
-        public async Task<Class> UpdateAsync(Class @class)
+        public async Task<Class> UpdateClassAsync(Class @class)
         {
             return await _classRepository.UpdateAsync(@class);
         }
 
-        public async Task RemoveAsync(Class classIn) =>
-            await _classRepository.RemoveAsync(classIn);
+        public async Task RemoveClassAsync(Class @class) =>
+            await _classRepository.RemoveAsync(@class);
 
-        public async Task RemoveAsync(string id) =>
+        public async Task RemoveClassAsync(string id) =>
             await _classRepository.RemoveAsync(id);
     }
 }

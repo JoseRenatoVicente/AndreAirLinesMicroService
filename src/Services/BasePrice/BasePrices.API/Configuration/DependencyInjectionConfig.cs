@@ -1,8 +1,10 @@
-﻿using AndreAirLines.Domain.Notifications;
+﻿using AndreAirLines.Domain.Identity.Extensions;
+using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
 using BasePrices.API.Infrastructure.Repository;
 using BasePrices.API.Services;
 using Classs.API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
@@ -32,6 +34,9 @@ namespace BasePrices.API.Configuration
             //notification
             services.AddSingleton<INotifier, Notifier>();
 
+            //Identity
+            services.AddSingleton<IAspNetUser, AspNetUser>();
+            services.AddHttpContextAccessor();
 
         }
     }

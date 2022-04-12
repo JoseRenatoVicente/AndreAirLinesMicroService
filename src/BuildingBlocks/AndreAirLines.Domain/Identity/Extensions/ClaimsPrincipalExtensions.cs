@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Security.Claims;
 
-namespace Identity.API.Extensions
+namespace AndreAirLines.Domain.Identity.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
         public static string GetUserId(this ClaimsPrincipal principal)
         {
-            if (principal is null)
-            {
-                throw new ArgumentException(nameof(principal));
-            }
+            if (principal == null) throw new ArgumentException(nameof(principal));
 
             var claim = principal.FindFirst(ClaimTypes.NameIdentifier);
             return claim?.Value;
@@ -18,21 +15,15 @@ namespace Identity.API.Extensions
 
         public static string GetUserEmail(this ClaimsPrincipal principal)
         {
-            if (principal is null)
-            {
-                throw new ArgumentException(nameof(principal));
-            }
+            if (principal == null) throw new ArgumentException(nameof(principal));
 
             var claim = principal.FindFirst("email");
             return claim?.Value;
         }
 
-        public static string GetUserToken(this ClaimsPrincipal principal)
+        public static string GetToken(this ClaimsPrincipal principal)
         {
-            if (principal is null)
-            {
-                throw new ArgumentException(nameof(principal));
-            }
+            if (principal == null) throw new ArgumentException(nameof(principal));
 
             var claim = principal.FindFirst("JWT");
             return claim?.Value;
@@ -40,10 +31,7 @@ namespace Identity.API.Extensions
 
         public static string GetUserRefreshToken(this ClaimsPrincipal principal)
         {
-            if (principal is null)
-            {
-                throw new ArgumentException(nameof(principal));
-            }
+            if (principal == null) throw new ArgumentException(nameof(principal));
 
             var claim = principal.FindFirst("RefreshToken");
             return claim?.Value;

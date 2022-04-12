@@ -46,9 +46,9 @@ namespace AndreAirLines.Domain.Controllers.Base
 
         protected async Task<ActionResult> CustomResponseAsync(ValidationResult validationResult)
         {
-            foreach (var erro in validationResult.Errors)
+            foreach (var error in validationResult.Errors)
             {
-                await AddError(erro.ErrorMessage);
+                await AddError(error.ErrorMessage);
             }
 
             return await CustomResponseAsync();

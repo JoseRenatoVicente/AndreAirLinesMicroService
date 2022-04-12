@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Airports.API.Controllers
 {
-    //[Authorize(Roles ="Admin")]
     [Route("api/[controller]")]
     public class AirportsController : BaseController
     {
@@ -39,6 +38,7 @@ namespace Airports.API.Controllers
             return airport;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAirport(string id, Airport airport)
         {
@@ -47,17 +47,19 @@ namespace Airports.API.Controllers
                 return BadRequest();
             }
 
-            await _airportsService.UpdateAsync(airport);
+            await _airportsService.UpdateAirportAsync(airport);
 
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Airport>> PostAirport(Airport airport)
         {
-            return await CustomResponseAsync(await _airportsService.AddAsync(airport));
+            return await CustomResponseAsync(await _airportsService.AddAirportAsync(airport));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAirport(string id)
         {
@@ -66,7 +68,7 @@ namespace Airports.API.Controllers
             {
                 return NotFound();
             }
-            await _airportsService.RemoveAsync(id);
+            await _airportsService.RemoveAirportAsync(id);
 
             return NoContent();
         }

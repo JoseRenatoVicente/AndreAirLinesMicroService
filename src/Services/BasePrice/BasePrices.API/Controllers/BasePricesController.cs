@@ -2,6 +2,7 @@
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Notifications;
 using BasePrices.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -51,22 +52,25 @@ namespace BasePrices.API.Controllers
             return basePrice;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBasePrice(string id, BasePrice basePrice)
         {
             if (id != basePrice.Id) return BadRequest();
 
-            await _basePricesService.UpdateAsync(basePrice);
+            await _basePricesService.UpdateBasePriceAsync(basePrice);
 
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostBasePrice(BasePrice basePrice)
         {
-            return await CustomResponseAsync(await _basePricesService.AddAsync(basePrice));
+            return await CustomResponseAsync(await _basePricesService.AddBasePriceAsync(basePrice));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBasePrice(string id)
         {
@@ -75,7 +79,7 @@ namespace BasePrices.API.Controllers
             {
                 return NotFound();
             }
-            await _basePricesService.RemoveAsync(id);
+            await _basePricesService.RemoveBasePriceAsync(id);
 
             return NoContent();
         }

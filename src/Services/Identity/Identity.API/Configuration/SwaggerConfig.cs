@@ -9,7 +9,7 @@ namespace Identity.API.Configuration
     {
         public static void AddSwaggerConfiguration(this IServiceCollection services)
         {
-            if (services is null) throw new ArgumentNullException(nameof(services));
+            if (services == null) throw new ArgumentNullException(nameof(services));
 
 
             services.AddSwaggerGen(s =>
@@ -55,7 +55,7 @@ namespace Identity.API.Configuration
 
         public static void UseSwaggerSetup(this IApplicationBuilder app)
         {
-            if (app is null) throw new ArgumentNullException(nameof(app));
+            if (app == null) throw new ArgumentNullException(nameof(app));
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

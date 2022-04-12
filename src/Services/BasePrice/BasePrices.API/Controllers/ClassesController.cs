@@ -2,6 +2,7 @@
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Notifications;
 using Classs.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -38,6 +39,7 @@ namespace Classs.API.Controllers
             return Class;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClass(string id, Class @class)
         {
@@ -46,17 +48,19 @@ namespace Classs.API.Controllers
                 return BadRequest();
             }
 
-            await _classsService.UpdateAsync(@class);
+            await _classsService.UpdateClassAsync(@class);
 
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Class>> PostClass(Class @class)
         {
-            return await CustomResponseAsync(await _classsService.AddAsync(@class));
+            return await CustomResponseAsync(await _classsService.AddClassAsync(@class));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClass(string id)
         {
@@ -65,7 +69,7 @@ namespace Classs.API.Controllers
             {
                 return NotFound();
             }
-            await _classsService.RemoveAsync(id);
+            await _classsService.RemoveClassAsync(id);
 
             return NoContent();
         }

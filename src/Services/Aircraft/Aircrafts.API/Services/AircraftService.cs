@@ -15,9 +15,10 @@ namespace Aircrafts.API.Services
         private readonly GatewayService _gatewayService;
         private readonly IAircraftRepository _aircraftRepository;
 
-        public AircraftService(IAircraftRepository aircraftRepository, INotifier notifier) : base(notifier)
+        public AircraftService(IAircraftRepository aircraftRepository, GatewayService gatewayService, INotifier notifier) : base(notifier)
         {
             _aircraftRepository = aircraftRepository;
+            _gatewayService = gatewayService;
         }
 
         public async Task<IEnumerable<Aircraft>> GetAircraftsAsync() =>
@@ -26,17 +27,16 @@ namespace Aircrafts.API.Services
         public async Task<Aircraft> GetAircraftByIdAsync(string id) =>
             await _aircraftRepository.FindAsync(c => c.Id == id);
 
-        public async Task<Aircraft> AddAsync(Aircraft aircraft)
+        public async Task<Aircraft> AddAircraftAsync(Aircraft aircraft)
         {
             if (!ExecuteValidation(new AircraftValidation(), aircraft)) return aircraft;
 
-            var user = new User { LoginUser = aircraft.LoginUser };
-            await _gatewayService.PostLogAsync(user, null, aircraft, Operation.Create);
+            await _gatewayService.PostLogAsync(null, aircraft, Operation.Create);
 
             return await _aircraftRepository.AddAsync(aircraft);
         }
 
-        public async Task<Aircraft> UpdateAsync(Aircraft aircraft)
+        public async Task<Aircraft> UpdateAircraftAsync(Aircraft aircraft)
         {
             var aircraftBefore = await _aircraftRepository.FindAsync(c => c.Id == aircraft.Id);
 
@@ -47,21 +47,19 @@ namespace Aircrafts.API.Services
                 return aircraft;
             }
 
-            var user = new User { LoginUser = aircraft.LoginUser };
-            await _gatewayService.PostLogAsync(user, aircraftBefore, aircraft, Operation.Update);
+            await _gatewayService.PostLogAsync(aircraftBefore, aircraft, Operation.Update);
 
             return await _aircraftRepository.UpdateAsync(aircraft);
         }
 
-        public async Task RemoveAsync(Aircraft aircraftIn)
+        public async Task RemoveAircraftAsync(Aircraft aircraft)
         {
-            var user = new User { LoginUser = aircraftIn.LoginUser };
-            await _gatewayService.PostLogAsync(user, aircraftIn, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(aircraft, null, Operation.Delete);
 
-            await _aircraftRepository.RemoveAsync(aircraftIn);
+            await _aircraftRepository.RemoveAsync(aircraft);
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> RemoveAircraftAsync(string id)
         {
             var aircraft = await _aircraftRepository.FindAsync(c => c.Id == id);
 
@@ -71,8 +69,7 @@ namespace Aircrafts.API.Services
                 return false;
             }
 
-            var user = new User { LoginUser = aircraft.LoginUser };
-            await _gatewayService.PostLogAsync(user, aircraft, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(aircraft, null, Operation.Delete);
 
             await _aircraftRepository.RemoveAsync(id);
 

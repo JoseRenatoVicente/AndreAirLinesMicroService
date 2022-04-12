@@ -38,7 +38,6 @@ namespace Logs.API.Controllers
 
             return new LogRequest(log);
         }
-
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLog(string id, Log log)
         {
@@ -47,7 +46,7 @@ namespace Logs.API.Controllers
                 return BadRequest();
             }
 
-            await _logsService.UpdateAsync(log);
+            await _logsService.UpdateLogAsync(log);
 
             return NoContent();
         }
@@ -55,7 +54,7 @@ namespace Logs.API.Controllers
         [HttpPost]
         public async Task<ActionResult<LogRequest>> PostLog(LogRequest log)
         {
-            return await CustomResponseAsync(new LogRequest(await _logsService.AddAsync(new Log(log))));
+            return await CustomResponseAsync(new LogRequest(await _logsService.AddLogAsync(new Log(log))));
         }
 
         [HttpDelete("{id}")]
@@ -66,7 +65,7 @@ namespace Logs.API.Controllers
             {
                 return NotFound();
             }
-            await _logsService.RemoveAsync(id);
+            await _logsService.RemoveLogAsync(id);
 
             return NoContent();
         }

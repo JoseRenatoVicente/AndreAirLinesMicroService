@@ -1,5 +1,6 @@
 ﻿using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Notifications;
+using AndreAirLines.Domain.Services.Base;
 using AndreAirLines.Domain.Validations;
 using Logs.API.Repository;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace AndreAirLines.Domain.Services
 {
-    public class LogService : GatewayService
+    public class LogService : BaseService
     {
         private readonly ILogRepository _logRepository;
 
-        public LogService(ILogRepository logRepository, HttpClient httpClient, INotifier notifier) : base(httpClient, notifier)
+        public LogService(ILogRepository logRepository, INotifier notifier) : base(notifier)
         {
             _logRepository = logRepository;
         }
@@ -23,22 +24,22 @@ namespace AndreAirLines.Domain.Services
         public async Task<Log> GetLogByIdAsync(string id) =>
             await _logRepository.FindAsync(c => c.Id == id);
 
-        public async Task<Log> AddAsync(Log log)
+        public async Task<Log> AddLogAsync(Log log)
         {
             if (!ExecuteValidation(new LogValidation(), log)) return log;
 
             return await _logRepository.AddAsync(log);
         }
 
-        public async Task<Log> UpdateAsync(Log log)
+        public async Task<Log> UpdateLogAsync(Log log)
         {
             return await _logRepository.UpdateAsync(log);
         }
 
-        public async Task RemoveAsync(Log logIn) =>
-            await _logRepository.RemoveAsync(logIn);
+        public async Task RemoveLogAsync(Log log) =>
+            await _logRepository.RemoveAsync(log);
 
-        public async Task RemoveAsync(string id) =>
+        public async Task RemoveLogAsync(string id) =>
             await _logRepository.RemoveAsync(id);
 
     }

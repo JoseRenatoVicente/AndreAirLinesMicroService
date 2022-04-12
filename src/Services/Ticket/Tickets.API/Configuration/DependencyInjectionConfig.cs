@@ -1,5 +1,7 @@
-﻿using AndreAirLines.Domain.Notifications;
+﻿using AndreAirLines.Domain.Identity.Extensions;
+using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
@@ -22,12 +24,17 @@ namespace Tickets.API.Configuration
             //services
             services.AddHttpClient<GatewayService>();
             services.AddSingleton<TicketService>();
+            services.AddSingleton<IAspNetUser, AspNetUser>();
 
             //repositories
             services.AddSingleton<ITicketRepository, TicketRepository>();
 
             //notification
             services.AddSingleton<INotifier, Notifier>();
+
+            //Identity
+            services.AddSingleton<IAspNetUser, AspNetUser>();
+            services.AddHttpContextAccessor();
 
         }
     }

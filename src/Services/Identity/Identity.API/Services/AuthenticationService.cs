@@ -47,7 +47,7 @@ namespace Identity.API.Services
         {
             var user = new User
             {
-                Address=userRegister.Address,
+                Address = userRegister.Address,
                 Sector = userRegister.Sector,
                 Sex = userRegister.Sex,
                 BirthDate = userRegister.BirthDate,
@@ -62,7 +62,7 @@ namespace Identity.API.Services
 
             user.Role = await _roleService.GetRoleByDescriptionAsync("User");
 
-            var userReponse = await _userService.AddAsync(user);
+            var userReponse = await _userService.AddUserAsync(user);
             if (userReponse == null) return null;
 
             return await GenerateJwt(user.Login);
@@ -80,9 +80,9 @@ namespace Identity.API.Services
 
 
             var claims = new List<System.Security.Claims.Claim>();
-            claims.Add(new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id));            
+            claims.Add(new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id));
             claims.Add(new System.Security.Claims.Claim("Email", user.Email));
-            claims.Add(new System.Security.Claims.Claim("Role", user.Role.Description));
+            claims.Add(new System.Security.Claims.Claim(ClaimTypes.Role, user.Role.Description));
 
             var claimsIdentity = new ClaimsIdentity(claims);
 
@@ -94,7 +94,11 @@ namespace Identity.API.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return new UserResponseLogin { AccessToken = tokenHandler.WriteToken(token) };
+            return new UserResponseLogin
+            {
+                AccessToken = tokenHandler.WriteToken(token),
+                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpirationHours).TotalSeconds
+            };
         }
     }
 }

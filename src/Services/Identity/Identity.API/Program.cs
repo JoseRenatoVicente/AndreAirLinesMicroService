@@ -15,6 +15,11 @@ namespace Identity.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureKestrel((options) =>
+                    {
+                        // Do not add the Server HTTP header.
+                        options.AddServerHeader = false;
+                    });
                 });
     }
 }

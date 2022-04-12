@@ -1,7 +1,7 @@
 ﻿using AndreAirLines.Domain.Controllers.Base;
 using AndreAirLines.Domain.Entities;
+using AndreAirLines.Domain.Identity.Extensions;
 using AndreAirLines.Domain.Notifications;
-using Identity.API.Extensions;
 using Identity.API.Models;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -16,10 +16,10 @@ namespace Identity.API.Controllers
     [ApiController]
     public class AuthController : BaseController
     {
-        private readonly AspNetUser _aspNetUser;
+        private readonly IAspNetUser _aspNetUser;
         private readonly AuthenticationService _authService;
 
-        public AuthController(AuthenticationService authService, AspNetUser aspNetUser, INotifier notifier) : base(notifier)
+        public AuthController(AuthenticationService authService, IAspNetUser aspNetUser, INotifier notifier) : base(notifier)
         {
             _authService = authService;
             _aspNetUser = aspNetUser;
@@ -42,7 +42,7 @@ namespace Identity.API.Controllers
         [HttpPost("Checar-Login")]
         public ActionResult CheckLogin()
         {
-            return Ok(_aspNetUser.ObterUserId());
+            return Ok(_aspNetUser.GetUserId());
         }
 
     }

@@ -2,6 +2,7 @@
 using AndreAirLines.Domain.Controllers.Base;
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace Aircrafts.API.Controllers
 
             return aircraft;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAircraft(string id, Aircraft aircraft)
         {
@@ -46,17 +47,19 @@ namespace Aircrafts.API.Controllers
                 return BadRequest();
             }
 
-            await _aircraftsService.UpdateAsync(aircraft);
+            await _aircraftsService.UpdateAircraftAsync(aircraft);
 
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Aircraft>> PostAircraft(Aircraft aircraft)
         {
-            return await CustomResponseAsync(await _aircraftsService.AddAsync(aircraft));
+            return await CustomResponseAsync(await _aircraftsService.AddAircraftAsync(aircraft));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAircraft(string id)
         {
@@ -65,7 +68,7 @@ namespace Aircrafts.API.Controllers
             {
                 return NotFound();
             }
-            await _aircraftsService.RemoveAsync(id);
+            await _aircraftsService.RemoveAircraftAsync(id);
 
             return NoContent();
         }

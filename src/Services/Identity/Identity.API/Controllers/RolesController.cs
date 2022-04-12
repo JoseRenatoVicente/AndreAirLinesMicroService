@@ -46,7 +46,7 @@ namespace Identity.API.Controllers
                 return BadRequest();
             }
 
-            await _roleService.UpdateAsync(Role);
+            await _roleService.UpdateRoleAsync(Role);
 
             return NoContent();
         }
@@ -54,7 +54,7 @@ namespace Identity.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Role>> PostRole(Role Role)
         {
-            return await _roleService.AddAsync(Role);
+            return await _roleService.AddRoleAsync(Role);
         }
 
         [HttpDelete("{id}")]
@@ -65,7 +65,7 @@ namespace Identity.API.Controllers
             {
                 return NotFound();
             }
-            await _roleService.RemoveAsync(id);
+            await _roleService.RemoveRoleAsync(id);
 
             return NoContent();
         }

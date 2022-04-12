@@ -12,7 +12,7 @@ namespace AndreAirLines.Domain.Repository
         Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> where);
         Task<TEntity> AddAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity);
-        Task RemoveAsync(TEntity entityIn);
+        Task RemoveAsync(TEntity entityRemove);
         Task RemoveAsync(string id);
     }
 }

@@ -1,3 +1,4 @@
+using AndreAirLines.Domain.Identity;
 using Flights.API.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,18 +22,13 @@ namespace Flights.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddJwtConfiguration(Configuration);
+
             services.ResolveDependencies(Configuration);
 
-            services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            });
+            services.AddMvcConfiguration();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flights.API", Version = "v1" });
-            });
+            services.AddSwaggerConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +45,7 @@ namespace Flights.API
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthConfiguration();            
 
             app.UseEndpoints(endpoints =>
             {

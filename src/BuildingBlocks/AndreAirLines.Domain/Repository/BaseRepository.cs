@@ -36,8 +36,8 @@ namespace AndreAirLines.Domain.Repository
             return entity;
         }
 
-        public async Task RemoveAsync(TEntity entityIn) =>
-            await DbSet.DeleteOneAsync(entity => entity.Id == entityIn.Id);
+        public async Task RemoveAsync(TEntity entityRemove) =>
+            await DbSet.DeleteOneAsync(entity => entity.Id == entityRemove.Id);
 
         public async Task RemoveAsync(string id) =>
             await DbSet.DeleteOneAsync(entity => entity.Id == id);

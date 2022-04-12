@@ -1,5 +1,6 @@
 ﻿using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Entities.Enums;
+using AndreAirLines.Domain.Identity.Extensions;
 using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
 using AndreAirLines.Domain.Services.Base;
@@ -31,9 +32,8 @@ namespace BasePrices.API.Services
             await _basePriceRepository.FindAsync(c => c.Origin.Id == originAirportId
                                                 && c.Destination.Id == destinationAirportId);
 
-        public async Task<BasePrice> AddAsync(BasePrice basePrice)
+        public async Task<BasePrice> AddBasePriceAsync(BasePrice basePrice)
         {
-
             if (basePrice.Origin.Id == basePrice.Destination.Id)
             {
                 Notification("Origin and Destination cannot be the same");
@@ -59,13 +59,12 @@ namespace BasePrices.API.Services
 
             if (!ExecuteValidation(new BasePriceValidation(), basePrice)) return basePrice;
 
-            var user = new User { LoginUser = basePrice.LoginUser };
-            await _gatewayService.PostLogAsync(user, null, basePrice, Operation.Create);
+            await _gatewayService.PostLogAsync(null, basePrice, Operation.Create);
 
             return await _basePriceRepository.AddAsync(basePrice);
         }
 
-        public async Task<BasePrice> UpdateAsync(BasePrice basePrice)
+        public async Task<BasePrice> UpdateBasePriceAsync(BasePrice basePrice)
         {
             var basePriceBefore = await _basePriceRepository.FindAsync(c => c.Id == basePrice.Id);
 
@@ -76,22 +75,19 @@ namespace BasePrices.API.Services
                 return basePrice;
             }
 
-            var user = new User { LoginUser = basePrice.LoginUser };
-            await _gatewayService.PostLogAsync(user, basePriceBefore, basePrice, Operation.Update);
+            await _gatewayService.PostLogAsync(basePriceBefore, basePrice, Operation.Update);
 
             return await _basePriceRepository.UpdateAsync(basePrice);
         }
 
-        public async Task RemoveAsync(BasePrice basePriceIn)
+        public async Task RemoveBasePriceAsync(BasePrice basePrice)
         {
+            await _gatewayService.PostLogAsync(basePrice, null, Operation.Delete);
 
-            var user = new User { LoginUser = basePriceIn.LoginUser };
-            await _gatewayService.PostLogAsync(user, basePriceIn, null, Operation.Delete);
-
-            await _basePriceRepository.RemoveAsync(basePriceIn);
+            await _basePriceRepository.RemoveAsync(basePrice);
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> RemoveBasePriceAsync(string id)
         {
             var basePrice = await _basePriceRepository.FindAsync(c => c.Id == id);
 
@@ -101,8 +97,7 @@ namespace BasePrices.API.Services
                 return false;
             }
 
-            var user = new User { LoginUser = basePrice.LoginUser };
-            await _gatewayService.PostLogAsync(user, basePrice, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(basePrice, null, Operation.Delete);
 
             await _basePriceRepository.RemoveAsync(id);
 

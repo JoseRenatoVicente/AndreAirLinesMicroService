@@ -27,7 +27,7 @@ namespace Flights.API.Services
         public async Task<Flight> GetFlightByIdAsync(string id) =>
             await _flightRepository.FindAsync(c => c.Id == id);
 
-        public async Task<Flight> AddAsync(Flight flight)
+        public async Task<Flight> AddFlightAsync(Flight flight)
         {
             if (flight.Origin.Id == flight.Destination.Id)
             {
@@ -62,17 +62,14 @@ namespace Flights.API.Services
 
             if (!ExecuteValidation(new FlightValidation(), flight)) return flight;
 
-            var user = new User { LoginUser = flight.LoginUser };
-            await _gatewayService.PostLogAsync(user, null, flight, Operation.Create);
+            await _gatewayService.PostLogAsync(null, flight, Operation.Create);
 
             return await _flightRepository.AddAsync(flight);
         }
 
-        public async Task<Flight> UpdateAsync(Flight flight)
+        public async Task<Flight> UpdateFlightAsync(Flight flight)
         {
-
             var flightBefore = await _flightRepository.FindAsync(c => c.Id == flight.Id);
-
 
             if (flightBefore == null)
             {
@@ -80,21 +77,19 @@ namespace Flights.API.Services
                 return flight;
             }
 
-            var user = new User { LoginUser = flight.LoginUser };
-            await _gatewayService.PostLogAsync(user, flightBefore, flight, Operation.Update);
+            await _gatewayService.PostLogAsync(flightBefore, flight, Operation.Update);
 
             return await _flightRepository.UpdateAsync(flight);
         }
 
-        public async Task RemoveAsync(Flight flightIn)
+        public async Task RemoveFlightAsync(Flight flight)
         {
-            var user = new User { LoginUser = flightIn.LoginUser };
-            await _gatewayService.PostLogAsync(user, flightIn, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(flight, null, Operation.Delete);
 
-            await _flightRepository.RemoveAsync(flightIn);
+            await _flightRepository.RemoveAsync(flight);
         }
 
-        public async Task<bool> RemoveAsync(string id)
+        public async Task<bool> RemoveFlightAsync(string id)
         {
             var flight = await _flightRepository.FindAsync(c => c.Id == id);
 
@@ -104,8 +99,7 @@ namespace Flights.API.Services
                 return false;
             }
 
-            var user = new User { LoginUser = flight.LoginUser };
-            await _gatewayService.PostLogAsync(user, flight, null, Operation.Delete);
+            await _gatewayService.PostLogAsync(flight, null, Operation.Delete);
 
             await _flightRepository.RemoveAsync(id);
 

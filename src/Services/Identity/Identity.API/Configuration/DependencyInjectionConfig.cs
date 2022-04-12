@@ -1,6 +1,6 @@
-﻿using AndreAirLines.Domain.Notifications;
+﻿using AndreAirLines.Domain.Identity.Extensions;
+using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
-using Identity.API.Extensions;
 using Identity.API.Repository;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Http;
@@ -26,8 +26,6 @@ namespace Identity.API.Configuration
             services.AddSingleton<UserService>();
             services.AddSingleton<RoleService>();
             services.AddSingleton<ViaCepService>();
-            services.AddSingleton<AspNetUser>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //repositories
             services.AddSingleton<IUserRepository, UserRepository>();
@@ -36,6 +34,9 @@ namespace Identity.API.Configuration
             //notification
             services.AddSingleton<INotifier, Notifier>();
 
+            //identity
+            services.AddSingleton<IAspNetUser, AspNetUser>();
+            services.AddHttpContextAccessor();
         }
     }
 }
