@@ -1,13 +1,10 @@
-﻿using AndreAirLines.Domain.Controllers.Base;
-using AndreAirLines.Domain.Entities;
-using AndreAirLines.Domain.Identity.Extensions;
-using AndreAirLines.Domain.Notifications;
+﻿using AndreAirLines.Domain.Identity.Extensions;
+using AndreAirLines.WebAPI.Core.Controllers;
+using AndreAirLines.WebAPI.Core.Notifications;
 using Identity.API.Models;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Identity.API.Controllers

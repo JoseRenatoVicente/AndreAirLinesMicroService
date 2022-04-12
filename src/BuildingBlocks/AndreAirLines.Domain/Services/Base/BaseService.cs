@@ -1,5 +1,5 @@
 ﻿using AndreAirLines.Domain.Entities.Base;
-using AndreAirLines.Domain.Notifications;
+using AndreAirLines.WebAPI.Core.Notifications;
 using FluentValidation;
 using FluentValidation.Results;
 

@@ -2,10 +2,10 @@
 using AndreAirLines.Domain.DTO;
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Entities.Enums;
-using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
 using AndreAirLines.Domain.Services.Base;
 using AndreAirLines.Domain.Validations;
+using AndreAirLines.WebAPI.Core.Notifications;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

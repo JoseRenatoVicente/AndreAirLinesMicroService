@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AndreAirLines.Domain.Notifications
+namespace AndreAirLines.WebAPI.Core.Notifications
 {
     public interface INotifier
     {

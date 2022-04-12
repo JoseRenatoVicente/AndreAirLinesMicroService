@@ -1,6 +1,5 @@
-﻿using AndreAirLines.Domain.Notifications;
-using AndreAirLines.Domain.Services;
-using Microsoft.Extensions.Configuration;
+﻿using AndreAirLines.Domain.Services;
+using AndreAirLines.WebAPI.Core.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

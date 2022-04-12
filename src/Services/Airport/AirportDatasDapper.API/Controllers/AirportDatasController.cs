@@ -1,9 +1,8 @@
 ﻿using AirportDatasDapper.Services;
-using AndreAirLines.Domain.Controllers.Base;
 using AndreAirLines.Domain.DTO;
-using AndreAirLines.Domain.Notifications;
+using AndreAirLines.WebAPI.Core.Controllers;
+using AndreAirLines.WebAPI.Core.Notifications;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

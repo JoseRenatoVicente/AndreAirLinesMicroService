@@ -1,9 +1,8 @@
 ﻿using Airports.API.Repository;
 using Airports.API.Services;
 using AndreAirLines.Domain.Identity.Extensions;
-using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services;
-using Microsoft.AspNetCore.Http;
+using AndreAirLines.WebAPI.Core.Notifications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;

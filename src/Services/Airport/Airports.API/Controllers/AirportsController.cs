@@ -1,7 +1,7 @@
 ﻿using Airports.API.Services;
-using AndreAirLines.Domain.Controllers.Base;
 using AndreAirLines.Domain.Entities;
-using AndreAirLines.Domain.Notifications;
+using AndreAirLines.WebAPI.Core.Controllers;
+using AndreAirLines.WebAPI.Core.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

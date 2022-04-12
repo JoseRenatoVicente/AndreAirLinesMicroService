@@ -1,7 +1,8 @@
 ﻿using AndreAirLines.Domain.Entities;
-using AndreAirLines.Domain.Identity;
-using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services.Base;
+using AndreAirLines.WebAPI.Core.Identity;
+using AndreAirLines.WebAPI.Core.Notifications;
+using Identity.API.Certificates;
 using Identity.API.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Identity.API.Services
@@ -28,11 +28,8 @@ namespace Identity.API.Services
         }
 
 
-
         public async Task<UserResponseLogin> LoginAsync(UserLogin userLogin)
         {
-            var userReponse = await _userService.PasswordSignInAsync(userLogin);
-
             if (!await _userService.PasswordSignInAsync(userLogin))
             {
                 Notification("Login and Password incorret");
@@ -59,7 +56,6 @@ namespace Identity.API.Services
                 Phone = userRegister.Phone
             };
 
-
             user.Role = await _roleService.GetRoleByDescriptionAsync("User");
 
             var userReponse = await _userService.AddUserAsync(user);
@@ -71,13 +67,9 @@ namespace Identity.API.Services
 
         public async Task<UserResponseLogin> GenerateJwt(string login)
         {
-
-
             var user = await _userService.GetUserByLoginAsync(login);
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes(_appSettings.Secret);
-
 
             var claims = new List<System.Security.Claims.Claim>();
             claims.Add(new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id));
@@ -90,7 +82,7 @@ namespace Identity.API.Services
             {
                 Subject = claimsIdentity,
                 Expires = DateTime.UtcNow.AddHours(_appSettings.ExpirationHours),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningAudienceCertificate().GetAudienceSigningKey()
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 

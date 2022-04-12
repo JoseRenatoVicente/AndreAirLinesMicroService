@@ -1,12 +1,10 @@
-﻿using System.Net.Http;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AndreAirLines.Domain.Identity
+namespace AndreAirLines.WebAPI.Core.Identity
 {
     public static class JwtConfig
     {
@@ -18,16 +16,17 @@ namespace AndreAirLines.Domain.Identity
 
             var appSettings = appSettingsSection.Get<AppSettings>();
 
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var issuerSigningCertificate = new SigningIssuerCertificate();
+            RsaSecurityKey issuerSigningKey = issuerSigningCertificate.GetIssuerSigningKey();
 
-            services.AddAuthentication(x =>
+            services.AddAuthentication(authOptions =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
+                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
             {
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
 
                     ValidateIssuer = false,
@@ -36,8 +35,8 @@ namespace AndreAirLines.Domain.Identity
                     ValidateIssuerSigningKey = true,
                     ValidAudience = appSettings.Audience,
                     ValidIssuer = appSettings.Issuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
-                   
+                    IssuerSigningKey = issuerSigningKey
+
                 };
             });
         }

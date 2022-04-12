@@ -1,7 +1,7 @@
 ﻿using AndreAirLines.Domain.Entities;
-using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services.Base;
 using AndreAirLines.Domain.Validations.Identity;
+using AndreAirLines.WebAPI.Core.Notifications;
 using Identity.API.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -4,7 +4,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace AndreAirLines.Domain.Notifications
+namespace AndreAirLines.WebAPI.Core.Notifications
 {
     public class NotificationFilter : IAsyncResultFilter
 	{

@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.15" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\AndreAirLines.Domain\AndreAirLines.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\AndreAirLines.WebAPI.Core\AndreAirLines.WebAPI.Core.csproj" />
   </ItemGroup>
 
 </Project>

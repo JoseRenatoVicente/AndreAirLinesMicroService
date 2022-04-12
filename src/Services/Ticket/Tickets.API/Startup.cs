@@ -1,4 +1,5 @@
 using AndreAirLines.Domain.Identity;
+using AndreAirLines.WebAPI.Core.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

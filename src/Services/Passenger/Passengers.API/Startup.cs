@@ -1,12 +1,11 @@
 using AndreAirLines.Domain.Identity;
+using AndreAirLines.WebAPI.Core.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using Passengers.API.Configuration;
-using System.Text.Json.Serialization;
 
 namespace Passengers.API
 {

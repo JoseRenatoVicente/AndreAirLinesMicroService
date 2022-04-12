@@ -2,8 +2,8 @@
 using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Entities.Enums;
 using AndreAirLines.Domain.Identity.Extensions;
-using AndreAirLines.Domain.Notifications;
 using AndreAirLines.Domain.Services.Base;
+using AndreAirLines.WebAPI.Core.Notifications;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
