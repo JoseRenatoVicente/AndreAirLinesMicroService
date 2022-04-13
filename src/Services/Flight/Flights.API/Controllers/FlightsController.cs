@@ -13,9 +13,9 @@ namespace Flights.API.Controllers
     [ApiController]
     public class FlightsController : BaseController
     {
-        private readonly FlightService _flightsService;
+        private readonly IFlightService _flightsService;
 
-        public FlightsController(FlightService flightsService, INotifier notifier) : base(notifier)
+        public FlightsController(IFlightService flightsService, INotifier notifier) : base(notifier)
         {
             _flightsService = flightsService;
         }

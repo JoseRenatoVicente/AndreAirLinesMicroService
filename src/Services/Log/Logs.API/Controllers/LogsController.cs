@@ -3,6 +3,7 @@ using AndreAirLines.Domain.Entities;
 using AndreAirLines.Domain.Services;
 using AndreAirLines.WebAPI.Core.Controllers;
 using AndreAirLines.WebAPI.Core.Notifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,9 +14,9 @@ namespace Logs.API.Controllers
     [ApiController]
     public class LogsController : BaseController
     {
-        private readonly LogService _logsService;
+        private readonly ILogService _logsService;
 
-        public LogsController(INotifier notifier, LogService logsService) : base(notifier)
+        public LogsController(ILogService logsService, INotifier notifier) : base(notifier)
         {
             _logsService = logsService;
         }
@@ -51,6 +52,7 @@ namespace Logs.API.Controllers
             return NoContent();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult<LogRequest>> PostLog(LogRequest log)
         {

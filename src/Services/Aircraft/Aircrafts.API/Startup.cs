@@ -1,11 +1,17 @@
 using Aircrafts.API.Configuration;
 using AndreAirLines.Domain.Identity;
+using AndreAirLines.WebAPI.Core.Configuration;
 using AndreAirLines.WebAPI.Core.Identity;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Net.Mime;
+using System.Text.Json;
 
 namespace Aircrafts.API
 {
@@ -27,6 +33,8 @@ namespace Aircrafts.API
 
             services.AddMvcConfiguration();
 
+            services.AddHealthChecks();
+
             services.AddSwaggerConfiguration();
         }
 
@@ -44,6 +52,8 @@ namespace Aircrafts.API
             app.UseRouting();
 
             app.UseAuthConfiguration();
+
+            app.UseHealthChecksConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

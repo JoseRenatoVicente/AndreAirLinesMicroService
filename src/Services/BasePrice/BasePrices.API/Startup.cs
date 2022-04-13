@@ -1,4 +1,5 @@
 using AndreAirLines.Domain.Identity;
+using AndreAirLines.WebAPI.Core.Configuration;
 using AndreAirLines.WebAPI.Core.Identity;
 using BasePrices.API.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,8 @@ namespace BasePrices.API
 
             services.AddMvcConfiguration();
 
+            services.AddHealthChecks();
+
             services.AddSwaggerConfiguration();
         }
 
@@ -44,6 +47,8 @@ namespace BasePrices.API
             app.UseRouting();
 
             app.UseAuthConfiguration();
+
+            app.UseHealthChecksConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

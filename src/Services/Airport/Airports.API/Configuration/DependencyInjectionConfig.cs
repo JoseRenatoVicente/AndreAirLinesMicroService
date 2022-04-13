@@ -21,7 +21,7 @@ namespace Airports.API.Configuration
             .GetDatabase(configuration["ConnectionStrings:DatabaseName"]));
 
             //services
-            services.AddSingleton<AirportService>();
+            services.AddSingleton<IAirportService, AirportService>();
             services.AddSingleton<ViaCepService>();
             services.AddHttpClient<GatewayService>();
 

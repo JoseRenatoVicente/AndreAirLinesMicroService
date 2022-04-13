@@ -13,8 +13,8 @@ namespace Tickets.API.Controllers
     [ApiController]
     public class TicketsController : BaseController
     {
-        private readonly TicketService _ticketsService;
-        public TicketsController(TicketService ticketsService, INotifier notifier) : base(notifier)
+        private readonly ITicketService _ticketsService;
+        public TicketsController(ITicketService ticketsService, INotifier notifier) : base(notifier)
         {
             _ticketsService = ticketsService;
         }

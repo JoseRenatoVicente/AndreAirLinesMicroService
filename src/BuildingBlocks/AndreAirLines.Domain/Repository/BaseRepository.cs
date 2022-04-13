@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace AndreAirLines.Domain.Repository
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
     {
+
         public IMongoCollection<TEntity> DbSet;
 
         public BaseRepository(IMongoDatabase database)

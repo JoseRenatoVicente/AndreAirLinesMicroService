@@ -23,8 +23,8 @@ namespace BasePrices.API.Configuration
 
             //services
             services.AddHttpClient<GatewayService>();
-            services.AddSingleton<BasePriceService>();
-            services.AddSingleton<ClassService>();
+            services.AddSingleton<IBasePriceService, BasePriceService>();
+            services.AddSingleton<IClassService, ClassService>();
 
             //repositories
             services.AddSingleton<IBasePriceRepository, BasePriceRepository>();

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Text.Json.Serialization;
 
-namespace AndreAirLines.Domain.Identity
+namespace AndreAirLines.WebAPI.Core.Configuration
 {
     public static class MvcConfig
     {

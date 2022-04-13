@@ -21,9 +21,9 @@ namespace Identity.API.Configuration
             .GetDatabase(Configuration["ConnectionStrings:DatabaseName"]));
 
             //services
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IRoleService, RoleService>();
             services.AddSingleton<AuthenticationService>();
-            services.AddSingleton<UserService>();
-            services.AddSingleton<RoleService>();
             services.AddSingleton<ViaCepService>();
 
             //repositories

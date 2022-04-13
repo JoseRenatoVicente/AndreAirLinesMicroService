@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Airports.API.Services
 {
-    public class AirportService : BaseService
+    public class AirportService : BaseService, IAirportService
     {
         private readonly ViaCepService _viaCepService;
         private readonly GatewayService _gatewayService;

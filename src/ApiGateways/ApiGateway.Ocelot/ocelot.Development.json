@@ -84,7 +84,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 44327
+          "Port": 44390
         }
       ],
       "UpstreamPathTemplate": "/Log/{everything}",
@@ -185,7 +185,7 @@
         {
           "Name": "Log API",
           "Version": "v1",
-          "Url": "https://localhost:44327/swagger/v1/swagger.json"
+          "Url": "https://localhost:44390/swagger/v1/swagger.json"
         }
       ]
     },

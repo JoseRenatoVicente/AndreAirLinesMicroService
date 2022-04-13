@@ -13,9 +13,9 @@ namespace Identity.API.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UsersController(UserService userService, INotifier notifier) : base(notifier)
+        public UsersController(IUserService userService, INotifier notifier) : base(notifier)
         {
             _userService = userService;
         }

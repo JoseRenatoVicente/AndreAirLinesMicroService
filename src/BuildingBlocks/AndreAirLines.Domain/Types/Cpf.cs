@@ -8,91 +8,18 @@ namespace AndreAirLines.Domain.Types
 {
     public struct Cpf
     {
-        private readonly string _value;
+        public string Number { get; private set; }
         public readonly bool IsValid;
         public readonly int Length;
-        public const int LengthCpf = 11;
+        public const int MaxLength = 11;
 
         private Cpf(string value)
         {
             Length = value.Length;
+            Number = value;
 
-            _value = value;
+            IsValid = ValidarCPF(Number);
 
-            if (value == null)
-            {
-                IsValid = false;
-                return;
-            }
-
-            var posicao = 0;
-            var totalDigito1 = 0;
-            var totalDigito2 = 0;
-            var dv1 = 0;
-            var dv2 = 0;
-
-            bool digitosIdenticos = true;
-            var ultimoDigito = -1;
-
-            foreach (var c in value)
-            {
-                if (char.IsDigit(c))
-                {
-                    var digito = c - '0';
-                    if (posicao != 0 && ultimoDigito != digito)
-                    {
-                        digitosIdenticos = false;
-                    }
-
-                    ultimoDigito = digito;
-                    if (posicao < 9)
-                    {
-                        totalDigito1 += digito * (10 - posicao);
-                        totalDigito2 += digito * (LengthCpf - posicao);
-                    }
-                    else if (posicao == 9)
-                    {
-                        dv1 = digito;
-                    }
-                    else if (posicao == 10)
-                    {
-                        dv2 = digito;
-                    }
-
-                    posicao++;
-                }
-            }
-
-            if (posicao > LengthCpf)
-            {
-                IsValid = false;
-                return;
-            }
-
-            if (digitosIdenticos)
-            {
-                IsValid = false;
-                return;
-            }
-
-            var digito1 = totalDigito1 % LengthCpf;
-            digito1 = digito1 < 2
-                ? 0
-                : LengthCpf - digito1;
-
-            if (dv1 != digito1)
-            {
-                IsValid = false;
-                return;
-            }
-
-            totalDigito2 += digito1 * 2;
-            var digito2 = totalDigito2 % LengthCpf;
-            digito2 = digito2 < 2
-                ? 0
-                : LengthCpf - digito2;
-
-            IsValid = dv2 == digito2;
         }
 
         public static Cpf Parse(string value)
@@ -111,17 +38,91 @@ namespace AndreAirLines.Domain.Types
         }
 
         public override string ToString()
-            => _value;
+            => Number;
 
         public string ToFormattedString()
         {
-            return _value;
+            return Number;
         }
 
         public static implicit operator Cpf(string value)
             => Parse(value);
 
-        public static bool ValidarCPF(Cpf sourceCPF) =>
-                sourceCPF.IsValid;
+        public static bool ValidarCPF(Cpf sourceCPF)
+        {
+            bool IsValid;
+
+            if (sourceCPF.Number == null)
+            {
+                return false;
+            }
+
+            var posicao = 0;
+            var totalDigito1 = 0;
+            var totalDigito2 = 0;
+            var dv1 = 0;
+            var dv2 = 0;
+
+            bool digitosIdenticos = true;
+            var ultimoDigito = -1;
+
+            foreach (var c in sourceCPF.Number)
+            {
+                if (char.IsDigit(c))
+                {
+                    var digito = c - '0';
+                    if (posicao != 0 && ultimoDigito != digito)
+                    {
+                        digitosIdenticos = false;
+                    }
+
+                    ultimoDigito = digito;
+                    if (posicao < 9)
+                    {
+                        totalDigito1 += digito * (10 - posicao);
+                        totalDigito2 += digito * (MaxLength - posicao);
+                    }
+                    else if (posicao == 9)
+                    {
+                        dv1 = digito;
+                    }
+                    else if (posicao == 10)
+                    {
+                        dv2 = digito;
+                    }
+
+                    posicao++;
+                }
+            }
+
+            if (posicao > MaxLength)
+            {
+
+                return false;
+            }
+
+            if (digitosIdenticos)
+            {
+                return false;
+            }
+
+            var digito1 = totalDigito1 % MaxLength;
+            digito1 = digito1 < 2
+                ? 0
+                : MaxLength - digito1;
+
+            if (dv1 != digito1)
+            {
+                return false;
+            }
+
+            totalDigito2 += digito1 * 2;
+            var digito2 = totalDigito2 % MaxLength;
+            digito2 = digito2 < 2
+                ? 0
+                : MaxLength - digito2;
+
+            return IsValid = dv2 == digito2;
+        }
     }
 }

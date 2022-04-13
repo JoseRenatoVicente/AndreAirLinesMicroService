@@ -14,9 +14,9 @@ namespace ExampleWebAPIMongoDB.Controllers
     public class PassengersController : BaseController
     {
 
-        private readonly PassengerService _passengerService;
+        private readonly IPassengerService _passengerService;
 
-        public PassengersController(PassengerService passengerService, INotifier notifier) : base(notifier)
+        public PassengersController(IPassengerService passengerService, INotifier notifier) : base(notifier)
         {
             _passengerService = passengerService;
         }

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Identity.API.Services
 {
-    public class UserService : BaseService
+    public class UserService : BaseService, IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;

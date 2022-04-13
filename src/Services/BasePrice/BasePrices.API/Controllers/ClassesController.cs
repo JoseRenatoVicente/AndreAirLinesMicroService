@@ -13,9 +13,9 @@ namespace Classs.API.Controllers
     [ApiController]
     public class ClassesController : BaseController
     {
-        private readonly ClassService _classsService;
+        private readonly IClassService _classsService;
 
-        public ClassesController(ClassService classsService, INotifier notifier) : base(notifier)
+        public ClassesController(IClassService classsService, INotifier notifier) : base(notifier)
         {
             _classsService = classsService;
         }

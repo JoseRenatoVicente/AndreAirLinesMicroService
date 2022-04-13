@@ -20,7 +20,7 @@ namespace Logs.API.Configuration
             .GetDatabase(Configuration["ConnectionStrings:DatabaseName"]));
 
             //services
-            services.AddHttpClient<LogService>();
+            services.AddSingleton<ILogService, LogService>();
             services.AddSingleton<IAspNetUser, AspNetUser>();
 
             //repositories

@@ -10,7 +10,7 @@ using Tickets.API.Repository;
 
 namespace Tickets.API.Services
 {
-    public class TicketService : BaseService
+    public class TicketService : BaseService, ITicketService
     {
         private readonly GatewayService _gatewayService;
         private readonly ITicketRepository _ticketRepository;

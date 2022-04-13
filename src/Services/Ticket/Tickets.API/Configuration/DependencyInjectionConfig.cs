@@ -22,7 +22,7 @@ namespace Tickets.API.Configuration
 
             //services
             services.AddHttpClient<GatewayService>();
-            services.AddSingleton<TicketService>();
+            services.AddSingleton<ITicketService, TicketService>();
             services.AddSingleton<IAspNetUser, AspNetUser>();
 
             //repositories

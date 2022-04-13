@@ -23,7 +23,7 @@ namespace Passengers.API.Configuration
             //services
             services.AddSingleton<ViaCepService>();
             services.AddHttpClient<GatewayService>();
-            services.AddSingleton<PassengerService>();
+            services.AddSingleton<IPassengerService, PassengerService>();
             services.AddSingleton<IAspNetUser, AspNetUser>();
 
             //repositories

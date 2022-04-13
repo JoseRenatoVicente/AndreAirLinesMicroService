@@ -22,7 +22,7 @@ namespace Aircrafts.API.Configuration
 
             //services
             services.AddHttpClient<GatewayService>();
-            services.AddSingleton<AircraftService>();
+            services.AddSingleton<IAircraftService, AircraftService>();
 
             //repositories
             services.AddSingleton<IAircraftRepository, AircraftRepository>();

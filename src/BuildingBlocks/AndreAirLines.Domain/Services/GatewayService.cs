@@ -29,7 +29,6 @@ namespace AndreAirLines.Domain.Services
         {
             try
             {
-
                 string userId = _aspNetUser.GetUserId();
 
                 using var response = await GetAsync(path);
@@ -67,17 +66,23 @@ namespace AndreAirLines.Domain.Services
             return await _httpClient.DeleteAsync(path);
         }
 
-        public async Task<bool> PostLogAsync(object entityBefore, object entityAfter, Operation operation)
+
+        public async Task<bool> PostLogAsync(LogRequest logRequest)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _aspNetUser.GetToken());
 
-            return (await _httpClient.PostAsJsonAsync("Log/api/Logs", new LogRequest
+            return (await _httpClient.PostAsJsonAsync("Log/api/Logs", logRequest)).IsSuccessStatusCode;
+        }
+        public async Task<bool> PostLogAsync(object entityBefore, object entityAfter, Operation operation)
+        {
+            LogRequest logRequest = new LogRequest
             {
                 User = await GetCurrentUserAsync(),
                 EntityBefore = entityBefore,
                 EntityAfter = entityAfter,
                 Operation = operation
-            })).IsSuccessStatusCode;
+            };
+            return await PostLogAsync(logRequest);
         }
 
         public async Task<User> GetCurrentUserAsync()

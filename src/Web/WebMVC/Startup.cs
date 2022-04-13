@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AndreAirLines.WebAPI.Core.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,8 @@ namespace WebMVC
         {
             services.ResolveDependencies();
 
+            services.AddHealthChecks();
+
             services.AddControllersWithViews();
         }
 
@@ -45,6 +48,8 @@ namespace WebMVC
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseHealthChecksConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

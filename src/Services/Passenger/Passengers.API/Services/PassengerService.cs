@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Passengers.API.Services
 {
-    public class PassengerService : BaseService
+    public class PassengerService : BaseService, IPassengerService
     {
         private readonly GatewayService _gatewayService;
         private readonly IPassengerRepository _passengerRepository;

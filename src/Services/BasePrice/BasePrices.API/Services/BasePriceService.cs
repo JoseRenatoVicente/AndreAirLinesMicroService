@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BasePrices.API.Services
 {
-    public class BasePriceService : BaseService
+    public class BasePriceService : BaseService, IBasePriceService
     {
         private readonly GatewayService _gatewayService;
         private readonly IBasePriceRepository _basePriceRepository;

@@ -27,7 +27,7 @@ namespace AndreAirLines.Domain.Services.Base
             _notifier.Handle(message);
         }
 
-        protected bool ExecuteValidation<TV, TE>(TV validation, TE entity) where TV : AbstractValidator<TE> where TE : EntityBase
+        protected bool ExecuteValidation<TValidation, TEntity>(TValidation validation, TEntity entity) where TValidation : AbstractValidator<TEntity> where TEntity : EntityBase
         {
             var validator = validation.Validate(entity);
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Identity.API.Services
 {
-    public class RoleService : BaseService
+    public class RoleService : BaseService, IRoleService
     {
         private readonly IRoleRepository _roleRepository;
 

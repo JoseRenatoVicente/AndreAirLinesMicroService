@@ -22,7 +22,7 @@ namespace Flights.API.Configuration
 
             //services
             services.AddHttpClient<GatewayService>();
-            services.AddSingleton<FlightService>();
+            services.AddSingleton<IFlightService, FlightService>();
             services.AddSingleton<IAspNetUser, AspNetUser>();
 
             //repositories

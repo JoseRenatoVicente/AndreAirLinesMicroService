@@ -16,11 +16,11 @@ namespace Identity.API.Services
 {
     public class AuthenticationService : BaseService
     {
-        private readonly RoleService _roleService;
-        private readonly UserService _userService;
+        private readonly IRoleService _roleService;
+        private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
-        public AuthenticationService(IOptions<AppSettings> appSettings, UserService userService, RoleService roleService, INotifier notifier) : base(notifier)
+        public AuthenticationService(IOptions<AppSettings> appSettings, IUserService userService, IRoleService roleService, INotifier notifier) : base(notifier)
         {
             _appSettings = appSettings.Value;
             _userService = userService;

@@ -1,6 +1,5 @@
 using Airports.API.Configuration;
-using AndreAirLines.Domain.Identity;
-using AndreAirLines.WebAPI.Core.Identity;
+using AndreAirLines.WebAPI.Core.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +27,8 @@ namespace Airports.API
 
             services.AddMvcConfiguration();
 
+            services.AddHealthChecks();
+
             services.AddSwaggerConfiguration();
         }
 
@@ -45,6 +46,8 @@ namespace Airports.API
             app.UseRouting();
 
             app.UseAuthConfiguration();
+
+            app.UseHealthChecksConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

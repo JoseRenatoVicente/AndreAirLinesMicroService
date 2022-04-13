@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Aircrafts.API.Services
 {
-    public class AircraftService : BaseService
+    public class AircraftService : BaseService, IAircraftService
     {
         private readonly GatewayService _gatewayService;
         private readonly IAircraftRepository _aircraftRepository;

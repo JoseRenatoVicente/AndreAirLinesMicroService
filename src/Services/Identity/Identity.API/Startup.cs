@@ -1,4 +1,5 @@
 using AndreAirLines.Domain.Identity;
+using AndreAirLines.WebAPI.Core.Configuration;
 using AndreAirLines.WebAPI.Core.Identity;
 using Identity.API.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -21,10 +22,12 @@ namespace Identity.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityConfig(Configuration);
             services.ResolveDependencies(Configuration);
+            services.AddIdentityConfig(Configuration);
 
             services.AddMvcConfiguration();
+
+            services.AddHealthChecks();
 
             services.AddSwaggerConfiguration();
         }
@@ -43,6 +46,8 @@ namespace Identity.API
             app.UseRouting();
 
             app.UseAuthConfiguration();
+
+            app.UseHealthChecksConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

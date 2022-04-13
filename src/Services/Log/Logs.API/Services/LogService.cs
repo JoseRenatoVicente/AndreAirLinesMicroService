@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AndreAirLines.Domain.Services
 {
-    public class LogService : BaseService
+    public class LogService : BaseService, ILogService
     {
         private readonly ILogRepository _logRepository;
 

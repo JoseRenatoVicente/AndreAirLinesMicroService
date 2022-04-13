@@ -13,9 +13,9 @@ namespace BasePrices.API.Controllers
     [ApiController]
     public class BasePricesController : BaseController
     {
-        private readonly BasePriceService _basePricesService;
+        private readonly IBasePriceService _basePricesService;
 
-        public BasePricesController(INotifier notifier, BasePriceService basePricesService) : base(notifier)
+        public BasePricesController(IBasePriceService basePricesService, INotifier notifier) : base(notifier)
         {
             _basePricesService = basePricesService;
         }
